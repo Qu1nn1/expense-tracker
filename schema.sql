@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS transactions (
-    id integer PRIMARY KEY AUTO_INCREMENT,
+    id integer PRIMARY KEY,
     amount_cents integer NOT NULL,
     category text NOT NULL,
     note text,

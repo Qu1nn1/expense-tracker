@@ -7,6 +7,7 @@ def get_db():
         db_path = pathlib.Path(current_app.instance_path) / "expenses.sqlite3"
         conn = sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES)
         conn.row_factory = sqlite3.Row
+        g.db = conn
     return g.db
 
 def close_db(e=None):
