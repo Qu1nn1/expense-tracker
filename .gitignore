@@ -208,4 +208,5 @@ __marimo__/
 
 # Test Data
 *.sqlite
+*.sqlite3
 *.db
