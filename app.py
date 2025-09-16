@@ -68,3 +68,11 @@ def summary_by_cat():
     ).fetchall()
     return jsonify([dict(r) for r in rows])
 
+@app.get("/api/summary/month")
+def summary_by_month():
+    db = get_db()
+    rows = db.execute(
+        "select strftime('%Y-%m', date) as month, sum(amount_cents) as total_cents "
+        "from transactions group by month order by month"
+    ).fetchall()
+    return jsonify([dict(r) for r in rows])
