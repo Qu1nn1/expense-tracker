@@ -58,3 +58,13 @@ def add_transaction():
         "values (?,?,?,?)", (cents, cat, note, data["date"]))
     db.commit()
     return jsonify(id=cur.lastrowid), 201
+
+@app.get("/api/summary/category")
+def summary_by_cat():
+    db = get_db()
+    rows = db.execute(
+        "select category, sum(amount_cents) as total_cents "
+        "from transactions group by category order by total_cents desc"
+    ).fetchall()
+    return jsonify([dict(r) for r in rows])
+
