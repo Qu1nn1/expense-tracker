@@ -9,11 +9,8 @@ async function fetchJson(url, opts) {
 }
 
 async function loadTrans() {
-  console.log("fetching...");
   const rows = await fetchJson("/api/transactions");
-  console.log("rows:", rows);
   const tbody = $("#table tbody");
-  console.log("tbody found?", !!tbody);
   tbody.innerHTML = "";
   if (!rows.length) {
     tbody.innerHTML =
@@ -31,6 +28,34 @@ async function loadTrans() {
   }
 }
 
+function todayISO() {
+  return new Date().toISOString().slice(0, 10);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   loadTrans();
+  const form = $("#form");
+  $("#date").value = todayISO();
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const body = {
+      amount: $("#amount").value,
+      category: $("#category").value,
+      note: $("#note").value,
+      date: $("#date").value,
+    };
+    try {
+      await fetchJson("/api/transactions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      form.reset();
+      $("#date").value = todayISO();
+      await loadTrans();
+    } catch (err) {
+      alert(err.message);
+    }
+  });
 });
