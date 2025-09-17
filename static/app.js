@@ -38,14 +38,41 @@ async function loadCatChart() {
   Plotly.newPlot("barByCat", [{ type: "bar", x, y }], { title: "By Category" });
 }
 
+function fmtMonthLabel(ym) {
+  const [y, m] = ym.split("-").map(Number);
+  return new Date(y, m - 1, 1).toLocaleString(undefined, {
+    month: "short",
+    year: "numeric",
+  });
+}
+
 async function loadMonthChart() {
   const rows = await fetchJson("/api/summary/month");
   const x = rows.map((r) => r.month);
   const y = rows.map((r) => r.total_cents / 100);
+  const text = x.map(fmtMonthLabel);
+
   Plotly.newPlot(
     "lineByMonth",
-    [{ type: "scatter", mode: "lines+markers", x, y }],
-    { title: "By Month" },
+    [
+      {
+        type: "scatter",
+        mode: "lines+markers",
+        x,
+        y,
+        text,
+        hovertemplate: "%{text}<br>$%{y:.2f}<extra></extra>",
+      },
+    ],
+    {
+      title: "By Month",
+      xaxis: {
+        type: "category",
+        tickmode: "array",
+        tickvals: x,
+        ticktext: text,
+      },
+    },
   );
 }
 
