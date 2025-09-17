@@ -1,4 +1,3 @@
-console.log("app.js loaded");
 const $ = (s) => document.querySelector(s);
 const fmt = (cents) => (cents / 100).toFixed(2);
 
@@ -32,8 +31,32 @@ function todayISO() {
   return new Date().toISOString().slice(0, 10);
 }
 
+async function loadCatChart() {
+  const rows = await fetchJson("/api/summary/category");
+  const x = rows.map((r) => r.category);
+  const y = rows.map((r) => r.total_cents / 100);
+  Plotly.newPlot("barByCat", [{ type: "bar", x, y }], { title: "By Category" });
+}
+
+async function loadMonthChart() {
+  const rows = await fetchJson("/api/summary/month");
+  const x = rows.map((r) => r.month);
+  const y = rows.map((r) => r.total_cents / 100);
+  Plotly.newPlot(
+    "lineByMonth",
+    [{ type: "scatter", mode: "lines+markers", x, y }],
+    { title: "By Month" },
+  );
+}
+
+async function refreshAll() {
+  await loadTrans();
+  await loadCatChart();
+  await loadMonthChart();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-  loadTrans();
+  refreshAll();
   const form = $("#form");
   $("#date").value = todayISO();
 
@@ -53,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       form.reset();
       $("#date").value = todayISO();
-      await loadTrans();
+      await refreshAll();
     } catch (err) {
       alert(err.message);
     }
