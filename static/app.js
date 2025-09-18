@@ -22,13 +22,18 @@ async function loadTrans() {
 			<td>${r.date}</td>
 			<td>${r.category}</td>
 			<td>${r.note ?? ""}</td>
-			<td class="text-end">${fmt(r.amount_cents)}</td>`;
+			<td class="text-end">${fmtMoney(r.amount_cents)}</td>`;
     tbody.appendChild(tr);
   }
 }
 
 function todayISO() {
   return new Date().toISOString().slice(0, 10);
+}
+
+function fmtMoney(cents) {
+  const v = cents / 100;
+  return v < 0 ? "-$" + Math.abs(v).toFixed(2) : "$" + v.toFixed(2);
 }
 
 async function loadCatChart() {
