@@ -54,8 +54,10 @@ All responses are JSON.
 ## Screenshots
 
 ![form+table](docs/form+table.png)
-![categoryChart](docs/CategoryChart.png)
-![monthChart](docs/MonthChart.png)
+<p float="left">
+  <img src="docs/CategoryChart.png" alt="Cat" width="45%" />
+  <img src="docs/MonthChart.png" alt="Month" width="45%" />
+</p>
 
 ## Notes
 
