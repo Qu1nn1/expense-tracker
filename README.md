@@ -1,4 +1,3 @@
-````markdown
 # Expense Tracker
 
 A minimal web app to track expenses and visualize spending trends.  
