@@ -54,7 +54,8 @@ All responses are JSON.
 ## Screenshots
 
 ![form+table](docs/form+table.png)
-![charts](docs/charts.png)
+![categoryChart](docs/CategoryChart.png)
+![monthChart](docs/MonthChart.png)
 
 ## Notes
 
