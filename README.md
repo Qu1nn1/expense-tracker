@@ -53,8 +53,8 @@ All responses are JSON.
 
 ## Screenshots
 
-![form+table](docs/screen-form.png)
-![charts](docs/screen-charts.png)
+![form+table](docs/form+table.png)
+![charts](docs/charts.png)
 
 ## Notes
 
